@@ -15,7 +15,7 @@ Todo
 Install
 -------
 
-   sudo gem install lamer
+`sudo gem install lamer`
 
 Prerequisites
 -------------

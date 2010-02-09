@@ -23,7 +23,6 @@ Gem::Specification.new do |s|
      "VERSION",
      "lamer.gemspec",
      "lib/lamer.rb",
-     "pkg/lamer-0.1.0.gem",
      "spec/decoding_spec.rb",
      "spec/encoding_spec.rb",
      "spec/lamer_spec.rb",
