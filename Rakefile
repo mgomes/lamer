@@ -6,7 +6,7 @@ begin
   Jeweler::Tasks.new do |gem|
 		gem.name = "lamer"
 		gem.summary = "Ruby wrapper for the LAME library"
-		gem.description = "Ruby wrapper for the LAME library"
+		gem.description = "Ruby wrapper for the LAME library. Currently wraps around the LAME executable so you can use LAME in your Ruby programs."
 		gem.email = "mauricio@edge14.com"
 		gem.homepage = "http://github.com/mgomes/lamer"
 		gem.authors = ["Chris Anderson", "Mauricio Gomes"]
