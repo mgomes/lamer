@@ -25,11 +25,11 @@ Prerequisites
 [LAME](http://lame.sourceforge.net/) is a high quality MPEG Audio Layer III (MP3) encoder licensed under the LGPL. Below is
 a list of pre-built binaries and a link to the source code.
 
-OS X: http://web.me.com/krmathis/
-openSUSE: http://packman.links2linux.org/package/lame
-Ubuntu: https://help.ubuntu.com/community/Medibuntu
-RHEL/CentOS/Fedora: http://atrpms.net/name/lame/
-Source: http://lame.sourceforge.net/download.php
+* [OS X](http://web.me.com/krmathis/)
+* [openSUSE](http://packman.links2linux.org/package/lame)
+* [Ubuntu](https://help.ubuntu.com/community/Medibuntu)
+* [RHEL/CentOS/Fedora ](http://atrpms.net/name/lame/)
+* [Source](http://lame.sourceforge.net/download.php)
 
 Credits
 -------
