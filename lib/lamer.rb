@@ -1,10 +1,3 @@
-def Object.sequence(*args)
-  args.each do |arg|
-    self.call arg, rest
-  end
-end
-
-
 class Lamer
   
   # These constants come from the LAME documentation
