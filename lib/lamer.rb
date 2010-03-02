@@ -48,6 +48,7 @@ class Lamer
     @options[:encode_quality] = "-q #{quality}"
   end
   
+	# 0 = high quality, bigger files; 9 = lower quality, smaller files
   def vbr_quality(quality)
     raise ArgumentError, "legal qualities: #{VBR_Quality.to_a.join(', ')}" unless VBR_Quality.include? quality
     @options[:vbr_quality], @options[:vbr] = "-V #{quality}", "-v"
