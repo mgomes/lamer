@@ -41,6 +41,8 @@ class Lamer
     @options[:bitrate] = "-b #{kbps}"
   end
   
+	# 0 = slowest algorithms, but potentially highest quality
+	# 9 = faster algorithms, very poor quality
   def encode_quality(quality)
     quality_keys = Hash.new { |h,k| k }.merge( { :high => 2, :fast => 7 } )
     quality = quality_keys[quality]
@@ -48,7 +50,8 @@ class Lamer
     @options[:encode_quality] = "-q #{quality}"
   end
   
-	# 0 = high quality, bigger files; 9 = lower quality, smaller files
+	# 0 = slowest algorithms, but potentially highest quality
+	# 9 = faster algorithms, very poor quality
   def vbr_quality(quality)
     raise ArgumentError, "legal qualities: #{VBR_Quality.to_a.join(', ')}" unless VBR_Quality.include? quality
     @options[:vbr_quality], @options[:vbr] = "-V #{quality}", "-v"
@@ -116,5 +119,16 @@ class Lamer
   def id3_add_v2!
     @options[:id3_version] = "--add-id3v2"
   end
+
+	# Filtering Options
+	
+	# width = frequency in kHz (> 0.001)
+	def highpass(width)
+		@options[:highpass] = "--highpass #{width}"
+	end
   
+	# width = frequency in kHz (> 0.001)
+	def lowpass(width)
+		@options[:lowpass] = "--lowpass #{width}"
+	end
 end
