@@ -48,21 +48,21 @@ gem install lamer
 ```ruby
 require 'lamer'
 
-# Encode a WAV file to MP3
-encoder = Lamer.new
-encoder.bitrate(192)
-encoder.mode(:stereo)
-encoder.id3(title: "My Song", artist: "My Artist")
-encoder.input_file("input.wav")
-encoder.output_file("output.mp3")
-encoder.convert!
+# One-liner encoding
+Lamer.encode("input.wav", "output.mp3", bitrate: 192, mode: :stereo)
 
-# Decode an MP3 file to WAV
-decoder = Lamer.new
-decoder.decode_mp3!
-decoder.input_file("input.mp3")
-decoder.output_file("output.wav")
-decoder.decode!
+# One-liner decoding
+Lamer.decode("input.mp3", "output.wav")
+
+# With ID3 tags
+Lamer.encode("input.wav", "output.mp3", bitrate: 192, id3: { title: "My Song", artist: "My Artist" })
+
+# Block syntax for more control
+Lamer.encode("input.wav", "output.mp3") do |l|
+  l.bitrate(256)
+  l.vbr_quality(2)
+  l.id3(title: "My Song", artist: "My Artist", album: "My Album")
+end
 ```
 
 ## Usage
