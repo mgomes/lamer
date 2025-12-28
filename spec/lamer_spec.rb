@@ -5,6 +5,95 @@ require "spec_helper"
 RSpec.describe Lamer do
   subject(:lamer) { described_class.new }
 
+  describe ".new" do
+    it "accepts input and output file arguments" do
+      l = described_class.new("input.wav", "output.mp3")
+      expect(l.instance_variable_get(:@input_file)).to eq("input.wav")
+      expect(l.instance_variable_get(:@output_file)).to eq("output.mp3")
+    end
+
+    it "accepts named arguments" do
+      l = described_class.new(bitrate: 192, mode: :stereo, quality: 2)
+      expect(l.options[:bitrate]).to eq(192)
+      expect(l.options[:mode]).to eq(:stereo)
+      expect(l.options[:quality]).to eq(2)
+    end
+
+    it "accepts vbr option" do
+      l = described_class.new(vbr: 3)
+      expect(l.options[:vbr_quality]).to eq(3)
+      expect(l.options[:vbr]).to eq(true)
+    end
+
+    it "accepts id3 option" do
+      l = described_class.new(id3: { title: "Test", artist: "Artist" })
+      expect(l.id3_options[:title]).to eq("Test")
+      expect(l.id3_options[:artist]).to eq("Artist")
+    end
+
+    it "accepts filter options" do
+      l = described_class.new(highpass: 0.1, lowpass: 16.0)
+      expect(l.options[:highpass]).to eq(100)
+      expect(l.options[:lowpass]).to eq(16000)
+    end
+
+    it "yields self to a block" do
+      l = described_class.new do |encoder|
+        encoder.bitrate(256)
+        encoder.mode(:mono)
+      end
+      expect(l.options[:bitrate]).to eq(256)
+      expect(l.options[:mode]).to eq(:mono)
+    end
+
+    it "combines arguments and block" do
+      l = described_class.new("input.wav", "output.mp3", bitrate: 128) do |encoder|
+        encoder.mode(:stereo)
+      end
+      expect(l.instance_variable_get(:@input_file)).to eq("input.wav")
+      expect(l.options[:bitrate]).to eq(128)
+      expect(l.options[:mode]).to eq(:stereo)
+    end
+  end
+
+  describe ".encode", :integration do
+    let(:spec_dir) { File.dirname(__FILE__) }
+    let(:test_mp3) { File.join(spec_dir, "test.mp3") }
+    let(:output_mp3) { File.join(spec_dir, "class_method_output.mp3") }
+
+    after do
+      File.delete(output_mp3) if File.exist?(output_mp3)
+    end
+
+    it "encodes with named arguments" do
+      described_class.encode(test_mp3, output_mp3, bitrate: 32, mode: :mono)
+      expect(File.exist?(output_mp3)).to eq(true)
+    end
+
+    it "encodes with a block" do
+      described_class.encode(test_mp3, output_mp3) do |l|
+        l.bitrate(32)
+        l.mode(:mono)
+      end
+      expect(File.exist?(output_mp3)).to eq(true)
+    end
+  end
+
+  describe ".decode", :integration do
+    let(:spec_dir) { File.dirname(__FILE__) }
+    let(:test_mp3) { File.join(spec_dir, "test.mp3") }
+    let(:output_wav) { File.join(spec_dir, "class_method_output.wav") }
+
+    after do
+      File.delete(output_wav) if File.exist?(output_wav)
+    end
+
+    it "decodes MP3 to WAV" do
+      described_class.decode(test_mp3, output_wav)
+      expect(File.exist?(output_wav)).to eq(true)
+    end
+  end
+
   describe "#bitrate" do
     it "records valid bitrates" do
       lamer.bitrate(128)
