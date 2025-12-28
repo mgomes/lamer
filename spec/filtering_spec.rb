@@ -1,23 +1,21 @@
-require File.dirname(__FILE__) + '/spec_helper'
+# frozen_string_literal: true
 
-describe "A highpass filter" do
-  before(:each) do
-    @la = Lamer.new
-  end
-  
-  it "should set the highpass frequency" do
-    @la.highpass(0.905)
-    @la.options[:highpass].should == "--highpass 0.905"
-  end
-end
+require "spec_helper"
 
-describe "A lowpass filter" do
-  before(:each) do
-    @la = Lamer.new
+RSpec.describe "Filtering" do
+  subject(:lamer) { Lamer.new }
+
+  describe "#highpass" do
+    it "sets the highpass frequency in Hz" do
+      lamer.highpass(0.905)
+      expect(lamer.options[:highpass]).to eq(905)
+    end
   end
-  
-  it "should set the lowpass frequency" do
-    @la.lowpass(0.205)
-    @la.options[:lowpass].should == "--lowpass 0.205"
+
+  describe "#lowpass" do
+    it "sets the lowpass frequency in Hz" do
+      lamer.lowpass(0.205)
+      expect(lamer.options[:lowpass]).to eq(205)
+    end
   end
 end

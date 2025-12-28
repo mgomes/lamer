@@ -1,16 +1,21 @@
-require 'rubygems'
- 
-def smart_require(lib_name, gem_name, gem_version = '>= 0.0.0')
-  begin
-    require lib_name if lib_name
-  rescue LoadError
-    if gem_name
-      gem gem_name, gem_version
-      require lib_name if lib_name
-    end
-  end
-end
- 
-smart_require 'spec', 'spec', '>= 1.2.6'
+# frozen_string_literal: true
 
-require File.expand_path(File.join(File.dirname(__FILE__), '../lib/lamer'))
+require "lamer"
+
+RSpec.configure do |config|
+  config.expect_with :rspec do |expectations|
+    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+  end
+
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
+  end
+
+  config.shared_context_metadata_behavior = :apply_to_host_groups
+  config.filter_run_when_matching :focus
+  config.disable_monkey_patching!
+  config.warnings = true
+
+  config.order = :random
+  Kernel.srand config.seed
+end
