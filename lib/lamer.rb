@@ -40,11 +40,44 @@ class Lamer
 
   attr_accessor :options, :id3_options
 
-  def initialize
+  def initialize(input = nil, output = nil, **opts)
     @options = {}
     @id3_options = nil
     @input_file = nil
     @output_file = nil
+
+    input_file(input) if input
+    output_file(output) if output
+
+    opts.each do |key, value|
+      case key
+      when :bitrate then bitrate(value)
+      when :sample_rate then sample_rate(value)
+      when :quality then encode_quality(value)
+      when :vbr then vbr_quality(value)
+      when :mode then mode(value)
+      when :id3 then id3(value)
+      when :highpass then highpass(value)
+      when :lowpass then lowpass(value)
+      end
+    end
+
+    yield self if block_given?
+  end
+
+  # Convenience class method for encoding
+  def self.encode(input, output, **opts, &block)
+    encoder = new(input, output, **opts, &block)
+    encoder.convert!
+  end
+
+  # Convenience class method for decoding
+  def self.decode(input, output)
+    decoder = new
+    decoder.decode_mp3!
+    decoder.input_file(input)
+    decoder.output_file(output)
+    decoder.decode!
   end
 
   # Set the output bitrate in kbps
