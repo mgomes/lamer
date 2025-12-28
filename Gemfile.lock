@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    lamer (0.2.0)
+    lamer (1.0.0)
       ffi (~> 1.15)
 
 GEM
